@@ -27,48 +27,9 @@ class Robot:
        # print(self.msg)
 
 
-def show_human_dialogue():
-    for msg in conversation:
-        print(str(msg))
-
-def show_robot_dialogue():
-    for msg in conversation:
-        msg1 = msg.split(":", 1)[0]
-        msg = msg.split(":", 1)[1]
-        for char in msg:
-            #print(char)
-            if char in 'aeiouAEIOU'   :
-                msg = msg.replace(char,'0')
-
-            else:
-                msg = msg.replace(char, '1')
-        print(msg1+": "+ msg)
-
-    # for i in range(len(conversation)):
-    #     for j in range(len(conversation[i])):
-    #         if conversation[i][j] in 'aeiouAEIOU':
-    #             conversation[i] = conversation[i].replace(conversation[i][j],'0')
-    #         else:
-    #             conversation[i] = conversation[i].replace(conversation[i][j],'1')
-    #     print(conversation[i])
-
-# def show_robot_dialogue():
-#     for msg in conversation:
-#         msg1 = msg.split("said: ", 1)[0]
-#         msg2 = msg.split("said: ", 1)[1]
-#         #print(msg2)
-#         for char in msg2:
-#             #print(char)
-#             if char in 'aeiouAEIOU'   :
-#                 msg = msg2.replace(char,'0')
-#
-#             else:
-#                 msg = msg2.replace(char, '1')
-#         print(msg)
-
 
 class Chat:
-
+    my_conv =[]
     human = Human('')
     robot= Robot('')
 
@@ -83,19 +44,39 @@ class Chat:
         self.robot = robot
         print( "Robot : {} is connected to chat".format(self.robot.serial_number))
 
+    def show_human_dialogue(self):
+        self.my_conv = conversation
+        for msg in self.my_conv:
+            print(str(msg))
 
+    def show_robot_dialogue(self):
+        self.my_conv = conversation
+        for msg in self.my_conv:
+            msg1 = msg.split(":", 1)[0]
+            msg = msg.split(":", 1)[1]
+            for char in msg:
+                # print(char)
+                if char in 'aeiouAEIOU':
+                    msg = msg.replace(char, '0')
+
+                else:
+                    msg = msg.replace(char, '1')
+            print(msg1 + ": " + msg)
 def main():
     chat = Chat()
     karl = Human("my human")
     bot = Robot("my robot")
     chat.connect_human(karl)
     chat.connect_robot(bot)
-
+    print("\n")
     karl.send("Hi robot")
     bot.send("hi human")
-    bot.send("fuck u")
-    show_human_dialogue()
-    show_robot_dialogue()
+    bot.send("bye human")
+    karl.send("bye robot")
+
+    chat.show_human_dialogue()
+    print("\n")
+    chat.show_robot_dialogue()
 
 if __name__ == "__main__":
     main()
