@@ -35,27 +35,33 @@ class Army(object):
 
 
 class Battle:
-    # for determining the strongest army
-    def __init__(self):
-        print("welcome the battle")
 
+    def __init__(self):
+        print("\nwelcome the battle")
+
+
+
+    # for determining the strongest army
     def fight(self,army1,army2):
 
         i =0
         j=0
         round_no =1
-        while army1.army_soldiers[i].is_alive and army2.army_soldiers[j].is_alive:
+
+        while army1.army_soldiers[i].is_alive and army2.army_soldiers[j].is_alive :
             round_no += 1
             print("*********** round {} **************".format(round_no))
-            if isinstance(army1.army_soldiers[i],Defender):
-                if army2.army_soldiers[j].attack > army1.army_soldiers[i].defense:
-                    army1.army_soldiers[i].health = army2.army_soldiers[j].attack - army1.army_soldiers[i].defense
-                    print("army 2 attacked a defender in army 2")
 
-            elif isinstance(army2.army_soldiers[j],Defender):
-                if army1.army_soldiers[i].attack > army2.army_soldiers[j].defense:
-                    army2.army_soldiers[j].health = army1.army_soldiers[i].attack - army2.army_soldiers[j].defense
-                    print("army 1 attacked a defender in army 2")
+
+            army1.army_soldiers[i].health = army2.army_soldiers[j].attack - army1.army_soldiers[i].defense if \
+                isinstance(army1.army_soldiers[i], Defender) and \
+                army2.army_soldiers[j].attack > army1.army_soldiers[i].defense \
+                else army1.army_soldiers[i].health - army2.army_soldiers[j].attack
+
+            army2.army_soldiers[j].health = army1.army_soldiers[i].attack - army2.army_soldiers[j].defense if \
+                isinstance(army2.army_soldiers[j], Defender) and \
+                army1.army_soldiers[i].attack > army2.army_soldiers[j].defense \
+                else army2.army_soldiers[j].health - army1.army_soldiers[i].attack
 
             #ARMY 2 ATTACKS ARMY 1
         #    army1.army_soldiers[i].health -= army2.army_soldiers[j].attack
@@ -63,33 +69,47 @@ class Battle:
         #    army2.army_soldiers[j].health -= army1.army_soldiers[i].attack
             if army2.army_soldiers[j].health <= 0:
                 if j == len(army2.army_soldiers)-1:
-                    print("army 1 won")
+                    print("last soldier in army 2 died -> army 1 won")
                     return True
                 else:
                     #army2.army_soldiers[j].is_alive = False
                     print("army 2 soldier number: {} has died".format(j+1))
                     j +=1
-                    continue
+
                 # print("warrior 1 won ")
                 # return True
             elif army1.army_soldiers[i].health <= 0:
                 if i == len(army1.army_soldiers)-1:
-                    print("army 2 won")
+                    print("last soldier in army 1 died -> army 2 won")
                     return False
                 else:
                     #army1.army_soldiers[i].is_alive = False
                     print("army 1 soldier number: {} has died".format(i+1))
                     i +=1
-                    continue
+
                 # print("warrior 2 won ")
                 # return False
-        i += 1
+            #i += 1
 
 
-army1 = Army()
-army2 = Army()
-army1.add_units(Warrior(),2)
-army2.add_units(Defender(),2)
+army_1 = Army()
+army_2 = Army()
+army_3 = Army()
+army_1.add_units(Warrior(),6)
+army_2.add_units(Defender(),5)
+army_3.add_units(Knight(),4)
+
 bat = Battle()
-bat.fight(army1,army2)
+print("\nBattle 1\n")
+bat.fight(army_1,army_2)
+
+print("\n---------------------------------\n")
+
+print("Battle 2\n")
+bat.fight(army_2,army_1)
+
+print("\n---------------------------------\n")
+
+print("Battle 3\n")
+bat.fight(army_3,army_1)
 
