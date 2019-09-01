@@ -12,8 +12,8 @@ class Knight(Warrior):
 
 def fight(w1,w2):
     while w1.is_alive and w2.is_alive:
-        w2.health -= w1.attack
         w1.health -= w2.attack
+        w2.health -= w1.attack
         if w2.health <= 0:
             w2.is_alive = False
             print("warrior 1 won ")
@@ -30,7 +30,4 @@ dave = Warrior()
 
 fight(chuck, bruce) == True
 fight(dave, carl) == False
-# chuck.is_alive == True
-# bruce.is_alive == False
-# carl.is_alive == True
-# dave.is_alive == False
+
